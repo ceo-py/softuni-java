@@ -55,15 +55,12 @@ public class WorldSnookerChampionship03 {
         if (totalCost > 4000) {
             totalCost *= 0.75;
         } else if (totalCost > 2500) {
-            switch (wantPicture) {
-                case "Y":
-                    totalCost *= 0.9 + numberTickets * 40;
-                    break;
-                case "N":
-                    totalCost *= 0.9;
-                    break;
-            }
+            totalCost *= 90
         }
+        if (wantPicture.equals(Y) && (totalCost <= 4000)){
+            totalCost += 40 * numberTickets
+        }
+
         System.out.printf("%.2f", totalCost);
     }
 }
