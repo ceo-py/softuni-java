@@ -1,21 +1,20 @@
 import java.util.Scanner;
 
-public class MovieTickets06 {
+public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
+        int numberOne = in.nextInt();
+        int numberTwo = in.nextInt();
+        int number = in.nextInt();
 
-        int a1 = Integer.parseInt(scanner.nextLine());
-        int a2 = Integer.parseInt(scanner.nextLine());
-        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = numberOne; i < numberTwo; i++) {
+            char nOne = (char) i;
 
-
-        for (int i = a1; i <= a2 - 1; i++) {
-            for (int j = 1; j <= n - 1 ; j++) {
-                for (int k = 1; k <= n / 2 - -1 ; k++) {
-                    char digit = '0';
-                    a1 = (char) digit;
-                    a2 = (char) digit;
-                    n = (char) digit;
+            for (int o = 1; o < number; o++) {
+                for (int p = 1; p < number / 2; p++) {
+                    if (i % 2 != 0 && (i + o + p) % 2 != 0) {
+                        System.out.println(nOne + "-" + o + p + i);
+                    }
                 }
             }
         }
