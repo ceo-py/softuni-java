@@ -1,33 +1,33 @@
-package com.company;
-
 import java.util.Scanner;
 
-public class Main {
-
+public class Oscars {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int tabInBrowser = Integer.parseInt(scanner.nextLine());
-        int salary = Integer.parseInt(scanner.nextLine());
-        boolean lost = false;
 
-        for (int i = 1; i <= tabInBrowser; i++) {
-            String nameOfWebsite = scanner.nextLine();
-            if (nameOfWebsite.equals("Facebook")) {
-                salary = salary - 150;
-            } else if (nameOfWebsite.equals("Instagram")) {
-                salary = salary - 100;
-            } else if (nameOfWebsite.equals("Reddit")) {
-                salary = salary - 50;
-            }
-            if (salary <= 0) {
-                lost = true;
+        String name = scanner.nextLine();
+        double academyPoints = Double.parseDouble(scanner.nextLine());
+        int n = Integer.parseInt(scanner.nextLine());
+
+        double totalPoints = academyPoints;
+
+        for (int i = 1; i <= n; i++) {
+            String juryName = scanner.nextLine();
+            double juryPoints = Double.parseDouble(scanner.nextLine());
+
+            int nameLength = juryName.length();
+
+            totalPoints += (nameLength * juryPoints / 2);
+
+            if (totalPoints > 1250.5) {
                 break;
             }
         }
-        if (salary <= 0) {
-            System.out.println("You have lost your salary.");
+
+
+        if (totalPoints >= 1250.5) {
+            System.out.printf("Congratulations, %s got a nominee for leading role with %.1f!", name, totalPoints);
         } else {
-            System.out.println(salary);
+            System.out.printf("Sorry, %s you need %.1f more!", name, Math.abs(totalPoints - 1250.5));
         }
     }
 }
