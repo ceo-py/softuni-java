@@ -1,41 +1,38 @@
 import java.util.Scanner;
 
-public class HighJump06 {
+public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
+        int requiredHeight = in.nextInt();
+        int initialHeight = requiredHeight - 30;
+        int failedJumps = 0;
+        int failedHeight = 0;
+        boolean failFlag = false;
+        int jumpsNumber = 0;
 
-        int targetHeight = Integer.parseInt(scanner.nextLine());
-        int jumpHeight = Integer.parseInt(scanner.nextLine());
-        int initialHeight = targetHeight - 30;
-
-        int unsuccessfulJumps = 0;
-
-        int jumps = 0;
-        boolean isReached = true;
-
-        while (jumpHeight < targetHeight) {
-            jumps++;
-            while (jumpHeight <= initialHeight) {
-                unsuccessfulJumps++;
-                jumps++;
-                if (unsuccessfulJumps == 3) {
-                    isReached = false;
-                    break;
-                }
-                jumpHeight = Integer.parseInt(scanner.nextLine());
+        while (failedJumps < 3) {
+            int jumpHeight = in.nextInt();
+            if (jumpHeight > initialHeight) {
+                initialHeight += 5;
+                failedJumps = 0;
+                jumpsNumber += 1;
+            } else if (jumpHeight <= initialHeight) {
+                failedJumps += 1;
+                jumpsNumber += 1;
             }
-            if (!isReached) {
+            if (failedJumps == 3) {
+                failFlag = true;
+            }
+            if (initialHeight > requiredHeight) {
                 break;
             }
-            initialHeight +=5;
-            unsuccessfulJumps = 0;
-            jumpHeight = Integer.parseInt(scanner.nextLine());
         }
 
-        if (isReached) {
-            System.out.printf("Tihomir succeeded, he jumped over %dcm after %d jumps.", targetHeight, jumps + 1);
-        } else {
-            System.out.printf("Tihomir failed at %dcm after %d jumps.", initialHeight, jumps - 1);
+        if (failFlag) {
+            System.out.println("Tihomir failed at " + initialHeight + "cm after " + jumpsNumber + " jumps.");
+        }
+        if (!failFlag) {
+            System.out.println("Tihomir succeeded, he jumped over " + requiredHeight + "cm after " + jumpsNumber + " jumps.");
         }
     }
 }
