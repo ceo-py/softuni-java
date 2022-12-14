@@ -1,37 +1,39 @@
 import java.util.Scanner;
 
-public class EasterShop04 {
+public class Easter_Shop_04 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int totalEggs = Integer.parseInt(scanner.nextLine());
-        String command = scanner.nextLine();
+        int startEggs = Integer.parseInt(scanner.nextLine());
+        String comand = scanner.nextLine();
 
-        int eggsSold = 0;
+        int eggsBuy = 0;
 
-        while (!command.equals("Close")) {
-            int eggsTraded = Integer.parseInt(scanner.nextLine());
-
-            switch (command) {
-                case "Buy":
-                    if (totalEggs < eggsTraded) {
-                        System.out.println("Not enough eggs in store!");
-                        System.out.printf("You can buy only %d.", totalEggs);
-                        break;
-                    } else {
-                    totalEggs -= eggsTraded;
-                    eggsSold += eggsTraded;
-                    break;
-                    }
-                case "Fill":
-                    totalEggs += eggsTraded;
-                    break;
+        while (!comand.equals("Close")) {
+            if (comand.equals("Fill")) {
+                int eggsNum = Integer.parseInt(scanner.nextLine());
+                startEggs += eggsNum;
             }
-            command = scanner.nextLine();
+            if (comand.equals("Buy")) {
+                int eggsNum = Integer.parseInt(scanner.nextLine());
+
+                if (eggsNum <= startEggs) {
+                    startEggs -= eggsNum;
+                    eggsBuy += eggsNum;
+                } else {
+                    System.out.printf("Not enough eggs in store!%n");
+                    System.out.printf("You can buy only %d.", startEggs);
+                    break;
+                }
+            }
+
+            comand = scanner.nextLine();
         }
-        if (command.equals("Close")) {
-            System.out.println("Store is closed!");
-            System.out.printf("%d eggs sold.", eggsSold);
+
+        if (comand.equals("Close")) {
+            System.out.printf("Store is closed!%n");
+            System.out.printf("%d eggs sold.", eggsBuy);
         }
+
     }
 }
