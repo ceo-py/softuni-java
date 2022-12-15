@@ -1,24 +1,19 @@
 import java.util.Scanner;
 
-public class MultiplyBy210 {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public class Main {
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
 
-        double number = Double.parseDouble(scanner.nextLine());
-        double result = number * 2;
+    while (true) {
+      float number = scanner.nextFloat();
 
-        while (number >= 0) {
-            number = Double.parseDouble(scanner.nextLine());
-            System.out.printf("Result: %.2f%n", result);
+      if (number < 0) {
+        System.out.println("Negative number!");
+        break;
+      }
 
-            }
-//        for (int i = 0; i <= Integer.MAX_VALUE; i++) {
-//            double number = Double.parseDouble(scanner.nextLine());
-//            if (number >= 0) {
-//                System.out.printf("Result: %.2f%n", number * 2);
-//            } else {
-//                System.out.println("Negative number!");
-//            }
-//        }
+      float total = number * 2;
+      System.out.printf("Result: %.2f\n", total);
     }
+  }
 }
