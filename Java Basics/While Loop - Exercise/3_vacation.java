@@ -1,40 +1,42 @@
+package com.company;
+
 import java.util.Scanner;
 
-public class Vacation03 {
+public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        double moneyForExcursion = Double.parseDouble(scanner.nextLine());
+        double currentMoney = Double.parseDouble(scanner.nextLine());
 
-        double tripPrice = Double.parseDouble(scanner.nextLine());
-        double startingMoney = Double.parseDouble(scanner.nextLine());
+        //double spendMoney = 0.0;
+        int counterSpendMoney = 0;
+        int counterDays = 1;
 
-        int daysPassed = 0;
-        int spendDays = 0;
+        while (currentMoney<moneyForExcursion) {
+            String input = scanner.nextLine();
+            double money = Double.parseDouble(scanner.nextLine());
 
-        while (startingMoney < tripPrice) {
-            String action = scanner.nextLine();
-            double actionMoney = Double.parseDouble(scanner.nextLine());
-            daysPassed++;
-
-            if (action.equals("spend")) {
-                startingMoney -= actionMoney;
-                spendDays++;
-                if (spendDays == 5){
+            if (input.equals("spend")) {
+                currentMoney = currentMoney - money;
+                if (currentMoney <= 0) {
+                    currentMoney = 0;
+                }
+                counterSpendMoney++;
+                if (counterSpendMoney == 5) {
+                    System.out.println("You can't save the money.");
+                    System.out.println(counterDays);
                     break;
                 }
-                if (startingMoney < 0) {
-                    startingMoney = 0;
+            } else if (input.equals("save")) {
+                currentMoney += money;
+                counterSpendMoney = 0;
+                if (currentMoney >= moneyForExcursion) {
+                    System.out.printf("You saved the money for %d days.", counterDays);
+                    break;
                 }
-            } else if (action.equals("save")) {
-                startingMoney += actionMoney;
-                spendDays = 0;
             }
-        }
-        if (spendDays == 5) {
-            System.out.println("You can't save the money.");
-            System.out.println(spendDays);
-        }
-        if (startingMoney >= tripPrice) {
-            System.out.printf("You saved the money for %d days.", daysPassed);
+            counterDays++;
         }
     }
 }
