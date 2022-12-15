@@ -1,37 +1,36 @@
+package com.company;
+
 import java.util.Scanner;
 
-public class Graduation08 {
+public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        String nameOfStudent = scanner.nextLine();
 
-        String name = scanner.nextLine();
-        double mark = Double.parseDouble(scanner.nextLine());
+        int counterYears = 1;
+        double sumGrade = 0.0;
+        int counterExcluded = 0;
 
-        double average = 0;
-        double sum = 0;
-        int fails = 0;
-        int grade = 0;
+        while (counterYears <= 12) {
 
-        while (grade < 13) {
-            sum += mark;
-            average = sum / grade;
+            double currentGrade = Double.parseDouble(scanner.nextLine());
 
-            if (mark < 4) {
-                fails++;
-                if (fails >= 2) {
-                    System.out.printf("%s has been excluded at %d grade", name, grade);
-                    break;
-                }
-            }
-            if (grade == 12) {
-                System.out.printf("%s graduated. Average grade: %.2f", name, average);
-                grade++;
-                break;
+            if (currentGrade < 4.00) {
+                counterExcluded++;
             } else {
-                mark = Double.parseDouble(scanner.nextLine());
-                grade++;
+                counterYears++;
             }
-
+            if (counterExcluded > 1) {
+                break;
+            }
+            sumGrade = sumGrade + currentGrade;
+        }
+        if (counterExcluded > 1) {
+            System.out.println(nameOfStudent + " has been excluded at " + counterYears + " grade");
+        } else {
+            double finalGrade = sumGrade / 12;
+            System.out.printf("%s graduated. Average grade: %.2f", nameOfStudent, finalGrade);
         }
     }
 }
