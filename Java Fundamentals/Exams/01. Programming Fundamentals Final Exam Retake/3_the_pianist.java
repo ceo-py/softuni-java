@@ -1,66 +1,70 @@
 import java.util.*;
 
-public class The_Pianist_03 {
+public class ThePianist03 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int numberOfPieces = Integer.parseInt(scanner.nextLine());
+        int musicalPieces = Integer.parseInt(scanner.nextLine());
+        Map<String, List<String>> musicalPiecesMap = new LinkedHashMap<>();
 
-        Map<String, List<String>> pieces = new HashMap<>();
-
-        for (int i = 1; i <= numberOfPieces; i++) {
-            String pieceInfo = scanner.nextLine();
-            String [] pieceInfoArray = pieceInfo.split("\\|");
-            String piece = pieceInfoArray[0];
-            String composer = pieceInfoArray[1];
-            String key = pieceInfoArray[2];
-
-            pieces.put(piece, Arrays.asList(composer, key));
+        for (int i = 1; i <= musicalPieces; i++) {
+            String[] piecesData = scanner.nextLine().split("\\|");
+            String pieceName = piecesData[0];
+            String composer = piecesData[1];
+            String key = piecesData[2];
+            musicalPiecesMap.putIfAbsent(pieceName, new ArrayList<>());
+            musicalPiecesMap.get(pieceName).add(composer);
+            musicalPiecesMap.get(pieceName).add(key);
         }
 
-        String command = scanner.nextLine();
-        while (!command.equals("Stop")) {
-            String [] commandArray = command.split("\\|");
-            String commandName = commandArray[0];
-            String piece = commandArray[1];
+        String input = scanner.nextLine();
 
-            switch (commandName) {
+        while (!input.equals("Stop")) {
+            String[] commandData = input.split("\\|");
+            String action = commandData[0];
+
+            switch (action) {
                 case "Add":
-                    String composer = commandArray[2];
-                    String key = commandArray[3];
-
-                    if (pieces.containsKey(piece)) {
-                        System.out.printf("%s is already in the collection!%n", piece);
+                    String pieceToAdd = commandData[1];
+                    if (musicalPiecesMap.containsKey(pieceToAdd)) {
+                        System.out.printf("%s is already in the collection!%n", pieceToAdd);
                     } else {
-                        pieces.put(piece, Arrays.asList(composer, key));
-                        System.out.printf("%s by %s in %s added to the collection!%n", piece, composer, key);
+                        String composerToAdd = commandData[2];
+                        String keyToAdd = commandData[3];
+                        musicalPiecesMap.put(pieceToAdd, new ArrayList<>());
+                        musicalPiecesMap.get(pieceToAdd).add(composerToAdd);
+                        musicalPiecesMap.get(pieceToAdd).add(keyToAdd);
+                        System.out.printf("%s by %s in %s added to the collection!%n", pieceToAdd, composerToAdd, keyToAdd);
                     }
-                    break;
+                        break;
                 case "Remove":
-                    if (pieces.containsKey(piece)) {
-                        pieces.remove(piece);
-                        System.out.printf("Successfully removed %s!%n", piece);
+                    String pieceToRemove = commandData[1];
+                    if (!musicalPiecesMap.containsKey(pieceToRemove)) {
+                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", pieceToRemove);
                     } else {
-                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", piece);
+                        musicalPiecesMap.remove(pieceToRemove);
+                        System.out.printf("Successfully removed %s!%n", pieceToRemove);
                     }
                     break;
                 case "ChangeKey":
-                    String newKey = commandArray[2];
-
-                    if (pieces.containsKey(piece)) {
-                        pieces.get(piece).set(1, newKey);
-                        System.out.printf("Changed the key of %s to %s!%n", piece, newKey);
+                    String pieceToKeyChange = commandData[1];
+                    String newKey = commandData[2];
+                    if (musicalPiecesMap.containsKey(pieceToKeyChange)) {
+                        musicalPiecesMap.get(pieceToKeyChange).remove(musicalPiecesMap.get(pieceToKeyChange).size() - 1);
+                        musicalPiecesMap.get(pieceToKeyChange).add(newKey);
+                        System.out.printf("Changed the key of %s to %s!%n", pieceToKeyChange, newKey);
                     } else {
-                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", piece);
+                        System.out.printf("Invalid operation! %s does not exist in the collection.%n", pieceToKeyChange);
                     }
+
+                    break;
+                default:
                     break;
             }
-
-            command = scanner.nextLine();
+            input = scanner.nextLine();
         }
-
-        pieces.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(kvp -> System.out.printf("%s -> Composer: %s, Key: %s%n", kvp.getKey(), kvp.getValue().get(0), kvp.getValue().get(1)));
+        for (Map.Entry <String, List<String>> entry : musicalPiecesMap.entrySet()) {
+            System.out.printf("%s -> Composer: %s, Key: %s%n", entry.getKey(), entry.getValue().get(0), entry.getValue().get(1));
+        }
     }
 }
