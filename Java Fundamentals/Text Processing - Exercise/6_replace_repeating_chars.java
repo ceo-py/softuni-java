@@ -25,5 +25,3 @@ public class Replace_Repeating_Chars_06 {
         System.out.print(input.toString().replaceAll("[\\[\\], ]", ""));
     }
 }
-Footer
-© 2022 GitH

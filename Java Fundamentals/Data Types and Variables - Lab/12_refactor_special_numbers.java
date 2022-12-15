@@ -1,24 +1,26 @@
 import java.util.Scanner;
 
-public class RefactorSpecialNumbers12 {
+public class Refactor_Special_Numbers_12 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         int n = Integer.parseInt(scanner.nextLine());
-        int sum = 0;
-        int current = 0;
-        boolean isSpecial = false;
-        for (int i = 1; i <= n; i++) {
-            current = i;
-            while (i > 0) {
-                sum += i % 10;
-                i = i / 10;
-            }
-            isSpecial = (sum == 5) || (sum == 7) || (sum == 11);
-            System.out.printf("%d -> %b%n", current, isSpecial);
-            sum = 0;
-            i = current;
 
+        for (int i = 1; i <= n; i++) {
+            int sum = 0;
+            int number = i;
+            int num = number;
+
+            while (number > 0) {
+                sum += number % 10;
+                number = number / 10;
+            }
+            if (sum == 5 || sum == 7 || sum == 11) {
+                System.out.printf("%d -> True%n", num);
+            } else {
+                System.out.printf("%d -> False%n", num);
+            }
         }
+
     }
 }

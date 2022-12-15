@@ -22,5 +22,3 @@ public class Foreign_Languages_06 {
 
     }
 }
-Footer
-© 2022 Git

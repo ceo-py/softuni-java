@@ -21,5 +21,3 @@ public class Randomize_Words_01 {
 
     }
 }
-Footer
-© 2022 G

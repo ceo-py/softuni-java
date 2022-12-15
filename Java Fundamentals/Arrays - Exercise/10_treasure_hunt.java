@@ -1,79 +1,90 @@
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Scanner;
 
-public class TreasureHunt10 {
+public class TreasureHunt {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String[] items = scanner.nextLine().split("\\|");
+        String[] treasureChest = scanner.nextLine().split("\\|");
 
         String command = scanner.nextLine();
-        String treasure = Arrays.toString(items).replace("[", "").replace("]", "");
-        ;
 
         while (!command.equals("Yohoho!")) {
-            String[] action = command.split(" ");
+            String[] commandParts = command.split(" ");
 
-            if (action[0].equals("Loot")) {
-                for (int i = 1; i <= action.length - 1; i++) {
-                    boolean isPresent = false;
-                    for (int j = 0; j <= items.length - 1; j++) {
-                        if (items[j].equals(action[i])) {
-                            isPresent = true;
-                            break;
+            switch (commandParts[0]) {
+                case "Loot":
+                    for (int i = 1; i < commandParts.length; i++) {
+                        boolean alreadyContained = false;
+                        for (int j = 0; j < treasureChest.length; j++) {
+                            if (commandParts[i].equals(treasureChest[j])) {
+                                alreadyContained = true;
+                                break;
+                            }
+                        }
+                        if (!alreadyContained) {
+                            String newChest = commandParts[i] + " " + String.join(" ", treasureChest);
+                            treasureChest = newChest.split(" ");
                         }
                     }
-                    if (!isPresent) {
-                        String temp = action[i];
-                        treasure = temp + ", " + treasure;
-                    }
-                }
-            } else if (action[0].equals("Drop")) {
-                String[] temp = treasure.split(", ");
-                if (Integer.parseInt(action[1]) > temp.length - 1 || Integer.parseInt(action[1]) < 0) {
-                    command = scanner.nextLine();
-                    continue;
-                } else {
-                    for (int i = 1; i < 2; i++) {
-                        String first = temp[Integer.parseInt(action[1])];
-                        for (int j = Integer.parseInt(action[1]); j < temp.length - 1; j++) {
-                            temp[j] = temp[j + 1];
-                        }
-                        temp[temp.length - 1] = first;
-                    }
-                }
-                treasure = Arrays.toString(temp).replace("[", "").replace("]", "");
+                    break;
+                case "Drop":
+                    int position = Integer.parseInt(commandParts[1]);
 
-            } else if (action[0].equals("Steal")) {
-                String[] temp = treasure.split(", ");
-                int stealCount = Integer.parseInt(action[1]);
-                for (int i = temp.length - stealCount; i <= temp.length - 1; i++) {
-                    if (i == temp.length - 1) {
-                        System.out.println(temp[i]);
+                    if (position <= treasureChest.length - 1 && position >= 0) {
+                        String dropItem = treasureChest[position];
+                        for (int i = position; i < treasureChest.length - 1; i++) {
+                            treasureChest[i] = treasureChest[i + 1];
+                        }
+                        treasureChest[treasureChest.length - 1] = dropItem;
+
                     } else {
-                        System.out.print(temp[i] + ", ");
+                        break;
                     }
-                        temp[i] = "";
-                }
-                treasure = Arrays.toString(temp).replace("[", "").replace("]", "");
-            } else
+                    break;
+                case "Steal":
+                    int numberOfStealingItems = Integer.parseInt(commandParts[1]);
+
+                    if (numberOfStealingItems >= 0 && numberOfStealingItems < treasureChest.length) {
+                        for (int i = 0; i < numberOfStealingItems; i++) {
+                            System.out.print(treasureChest[treasureChest.length - numberOfStealingItems + i]);
+                            if (i != numberOfStealingItems - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        String[] tempChest = new String[treasureChest.length - numberOfStealingItems];
+                        for (int i = 0; i < tempChest.length; i++) {
+                            tempChest[i] = treasureChest[i];
+                        }
+                        treasureChest = tempChest;
+
+                    } else if (numberOfStealingItems >= 0) {
+                        for (int i = 0; i < treasureChest.length; i++) {
+                            System.out.print(treasureChest[i]);
+                            if (i != treasureChest.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        treasureChest = new String[0];
+                    }
+                    System.out.println();
+                    break;
+
+            }
+
+
             command = scanner.nextLine();
         }
-        String [] finalTreasure = treasure.split(", ");
-        if (finalTreasure.length == 0) {
-            System.out.println("Failed treasure hunt.");
-        } else {
-            double averageSum = 0;
-            int numberItems = 0;
 
-            for (int i = 0; i <= finalTreasure.length - 1; i++) {
-                averageSum += finalTreasure[i].length();
-                numberItems++;
-            }
-            System.out.printf("Average treasure gain: %.2f pirate credits.", (averageSum / numberItems));
-
+        String treasureCount = String.join("", treasureChest);
+        int charCounter = 0;
+        for (int i = 0; i < treasureCount.length(); i++) {
+            charCounter++;
         }
-
+        double averageTreasure = (1.0 * charCounter) / treasureChest.length;
+        if (charCounter > 0) {
+            System.out.printf("Average treasure gain: %.2f pirate credits.", averageTreasure);
+        } else {
+            System.out.println("Failed treasure hunt.");
+        }
     }
 }

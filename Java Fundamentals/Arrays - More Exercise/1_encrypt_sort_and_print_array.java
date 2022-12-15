@@ -1,41 +1,44 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
-public class EncryptSortAndPrintArray01 {
+public class Encrypt_Sort_And_Print_Array_01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int numStrings = Integer.parseInt(scanner.nextLine());
-        int[] array = new int[numStrings];
+        int numberOfStrings = Integer.parseInt(scanner.nextLine());
+        int [] array = new int[numberOfStrings];
 
-        for (int i = 0; i < numStrings; i++) {
+        for (int i = 0; i < numberOfStrings; i++) {
             String input = scanner.nextLine();
-            int sumVowels = 0;
-            int sumConsonants = 0;
+            int sum = 0;
 
-            for (int j = 0; j <= input.length() - 1; j++) {
-                switch (input.charAt(j)) {
-                    case 'a', 'e', 'o', 'u', 'i', 'A', 'E', 'O', 'I', 'U' -> sumVowels += (int) input.charAt(j) * input.length();
-                    default -> sumConsonants += (int) input.charAt(j) / input.length();
+            for (int j = 0; j < input.length(); j++) {
+                char letter = input.charAt(j);
+
+                switch (letter) {
+                    case 'a':
+                    case 'e':
+                    case 'i':
+                    case 'o':
+                    case 'u':
+                    case 'A':
+                    case 'E':
+                    case 'I':
+                    case 'O':
+                    case 'U':
+                        sum += letter * input.length();
+                        break;
+                    default:
+                        sum += letter / input.length();
+                        break;
                 }
             }
-            int totalSum = sumConsonants + sumVowels;
-            array[i] = totalSum;
+            array [i] = sum;
         }
-        for (int i = 0; i < array.length; i++) {
-            for (int j = i + 1; j < array.length; j++) {
-                if (array[i] > array[j]) {
-                    int temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
-                }
-            }
-        }
-//        Arrays.sort(array);
-        for (int num : array) {
-            System.out.println(num);
+
+        Arrays.sort(array);
+        for (int print : array) {
+            System.out.println(print);
         }
     }
 }

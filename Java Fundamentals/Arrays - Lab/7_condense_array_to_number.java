@@ -1,20 +1,21 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class CondenseArrayToNumber07 {
+public class Condense_Array_To_Number_07 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int[] arr = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int[] input = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(e -> Integer.parseInt(e)).toArray();
 
-        for (int i = 0; i < arr.length - 1; i++) {
-            int[] condensed = new int[arr.length - 1];
+        while (input.length > 1) {
+            int[] condensed = new int[input.length - 1];
 
-            for (int j = 0; j < arr.length - 1; j++) {
-                condensed[j] = arr[j] + arr[j + 1];
+            for (int i = 0; i < condensed.length; i++) {
+                condensed[i] = input[i] + input[i + 1];
             }
-            arr = condensed;
+            input = condensed;
         }
-        System.out.println(arr[0]);
+
+        System.out.println(input[0]);
     }
 }
