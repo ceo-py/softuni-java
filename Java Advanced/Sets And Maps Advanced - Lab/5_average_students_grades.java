@@ -1,39 +1,50 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeMap;
 
-public class AverageStudentsGrades {
+public class Main {
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int numberOfStudents = Integer.parseInt(bufferedReader.readLine());
+        TreeMap<String, ArrayList<Double>> students = new TreeMap<>();
 
-        TreeMap<String, List<Double>> record = new TreeMap<>();
+        for (int i = 0; i < numberOfStudents; i++) {
+            String[] studentInfo = bufferedReader.readLine().split("\\s+");
+            String studentName = studentInfo[0];
+            Double studentGrade = Double.parseDouble(studentInfo[1]);
 
-        int gradesCount = Integer.parseInt(reader.readLine());
-
-        for (int i = 0; i < gradesCount; i++) {
-            String[] parts = reader.readLine().split(" ");
-            String name = parts[0];
-            Double grade = Double.parseDouble(parts[1]);
-
-            List<Double> currentGrades = new ArrayList<>();
-
-            if (record.containsKey(name)) {
-                currentGrades = record.get(name);
+            if (!students.containsKey(studentName)) {
+                ArrayList<Double> grades = new ArrayList<>();
+                grades.add(studentGrade);
+                students.put(studentName, grades);
+            } else {
+                ArrayList<Double> studentGrades = students.get(studentName);
+                studentGrades.add(studentGrade);
+                students.put(studentName, studentGrades);
             }
-            currentGrades.add(grade);
-            record.put(name, currentGrades);
         }
 
-        for (String studentName : record.keySet()) {
-            System.out.print(studentName + " -> ");
-            double gradeSum = 0;
-            List<Double> studentGrades = record.get(studentName);
-            for (Double grade : studentGrades) {
-                gradeSum += grade;
-                System.out.printf("%.2f ", grade);
+        for (String student : students.keySet()) {
+            ArrayList<Double> grades = students.get(student);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(student).append(" -> ");
+            for (int i = 0; i < grades.size(); i++) {
+                stringBuilder.append(String.format("%.2f", grades.get(i))).append(" ");
             }
-            System.out.printf("(avg: %.2f)\n", Math.round(gradeSum / studentGrades.size() * 100) / 100.0);
+            stringBuilder.append("(avg: ").append(String.format("%.2f", getAverage(grades))).append(")");
+            System.out.println(stringBuilder.toString());
         }
+    }
+
+    private static Double getAverage(List<Double> grades) {
+        double total = 0d;
+        for (int i = 0; i < grades.size(); i++) {
+            total += grades.get(i);
+        }
+        return total / grades.size();
     }
 }
