@@ -2,54 +2,58 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NetherRealms05 {
+public class E5NetherRealms {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String[] input = scanner.nextLine().split(",\\s*");
-        String regexHealth = "[^(\\d.+/*\\-)]";
-        String regexDamage = "(?<damage>[\\+\\-]?\\d+\\.?\\d*)";
-        String regexMultiOrDivision = "[*\\/]";
+        String demons = scanner.nextLine();
 
+        Pattern pattern = Pattern.compile("[^,\\s+]+");
+        Matcher matcher = pattern.matcher(demons);
 
-        for (int i = 0; i < input.length; i++) {
-            String currentDemon = input[i];
-            if (currentDemon.contains(" ")) {
+        while (matcher.find()) {
+            String demonName = matcher.group();
+            int demonHealth = getDemonHealth(demonName);
+            double demonDamage = getDemonDamage(demonName);
 
-                continue;
-            }
-
-            int health = 0;
-            double damage = 0;
-
-            Pattern patternHealth = Pattern.compile(regexHealth);
-            Matcher matcherHealth = patternHealth.matcher(currentDemon);
-
-            while (matcherHealth.find()) {
-                char currentHealthChar = matcherHealth.group().charAt(0);
-                health += currentHealthChar;
-            }
-
-            Pattern patternDamage = Pattern.compile(regexDamage);
-            Matcher matcherDamage = patternDamage.matcher(currentDemon);
-
-            while (matcherDamage.find()) {
-                double amount = Double.parseDouble(matcherDamage.group("damage"));
-                damage += amount;
-            }
-
-            Pattern additional = Pattern.compile(regexMultiOrDivision);
-            Matcher matcherAdditional = additional.matcher(currentDemon);
-
-            while (matcherAdditional.find()) {
-                if (matcherAdditional.group().equals("*")) {
-                    damage *= 2;
-                } else {
-                    damage /= 2;
-                }
-            }
-
-            System.out.printf("%s - %d health, %.2f damage%n", currentDemon, health, damage);
+            System.out.printf("%s - %d health, %.2f damage%n", demonName, demonHealth, demonDamage);
         }
+    }
+
+    private static double getDemonDamage(String name) {
+        Pattern damagePattern = Pattern.compile("[-|+]?(\\d+\\.?\\d+|\\d+)");
+        Matcher damageMatcher = damagePattern.matcher(name);
+
+        double damage = 0.0;
+        while (damageMatcher.find()) {
+            damage += Double.parseDouble(damageMatcher.group());
+        }
+
+        Pattern pattern = Pattern.compile("[*/]");
+        damageMatcher = pattern.matcher(name);
+
+        while (damageMatcher.find()) {
+            String symbol = damageMatcher.group();
+            if (symbol.equals("*")) {
+                damage *= 2;
+            } else if (symbol.equals("/")) {
+                damage /= 2;
+            }
+        }
+
+
+        return damage;
+    }
+
+    private static int getDemonHealth(String name) {
+        Pattern healthPattern = Pattern.compile("[^-+0-9*/.]");
+        Matcher healthMatcher = healthPattern.matcher(name);
+        int sumOfCharCodes = 0;
+        while (healthMatcher.find()) {
+            int symbolAsciiCode = healthMatcher.group().charAt(0);
+            sumOfCharCodes += symbolAsciiCode;
+        }
+
+        return sumOfCharCodes;
     }
 }
