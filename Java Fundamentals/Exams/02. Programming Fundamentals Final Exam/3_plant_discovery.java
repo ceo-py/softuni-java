@@ -52,19 +52,14 @@ public class Plant_Discovery_03 {
 
         System.out.println("Plants for the exhibition:");
 
-        plants
-            .entrySet()
-            .stream()
-            .sorted(Map.Entry.<String, Integer>comparingByValue().thenComparingDouble(x -> ratings.get(x.getKey())
-                                                                                      .stream()
-                                                                                      .mapToDouble(Double::doubleValue)
-                                                                                      .average()
-                                                                                      .orElse(0.0))
-            .reversed())
-            .forEach(entry -> System.out.println(String.format("- %s; Rarity: %d; Rating: %.2f",
-                        entry.getKey(),
-                        entry.getValue(),
-                        ratings.get(entry.getKey()).stream().mapToDouble(Double::doubleValue).average().orElse(0.0))));
+
+for (Map.Entry<String, Integer> entry : plants.entrySet()) {
+    String plant = entry.getKey();
+    int rarity = entry.getValue();
+    double averageRating = ratings.get(plant).stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+    System.out.println(String.format("- %s; Rarity: %d; Rating: %.2f", plant, rarity, averageRating));
+}
+
 
     }
 }
