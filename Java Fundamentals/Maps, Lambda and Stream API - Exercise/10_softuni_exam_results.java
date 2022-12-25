@@ -1,54 +1,48 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class SoftUni_Exam_Results_10 {
+public class E10SoftUniExamResults {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Map<String, Integer> userPoints = new HashMap<>();
-        Map<String, Integer> languageCount = new HashMap<>();
+        LinkedHashMap<String, Integer> contest = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> participants = new LinkedHashMap<>();
         String input = scanner.nextLine();
 
-        while (!input.equals("exam finished")) {
-            String[] splitArray = input.split("-");
-            String username = splitArray[0];
+        while (!"exam finished".equals(input)) {
+            String[] tokens = input.split("-");
+            String nameStudent = tokens[0];
 
-            if (splitArray.length == 3) {
-                String language = splitArray[1];
-                int points = Integer.parseInt(splitArray[2]);
+            if (tokens.length == 3) {
+                String language = tokens[1];
+                int score = Integer.parseInt(tokens[2]);
 
-                if (!userPoints.containsKey(username)) {
-                    userPoints.put(username, points);
-                } else {
-                    int currentPoints = userPoints.get(username);
-                    if (points > currentPoints) {
-                        userPoints.put(username, points);
-                    }
+                if (!contest.containsKey(nameStudent)) {
+                    contest.putIfAbsent(nameStudent, score);
+                }
+                if (contest.get(nameStudent) < score) {
+                    contest.put(nameStudent, score);
                 }
 
-                if (!languageCount.containsKey(language)) {
-                    languageCount.put(language, 1);
-                } else {
-                    languageCount.put(language, languageCount.get(language) + 1);
+                Integer count = participants.get(language);
+                if (count == null) {
+                    count = 0;
                 }
-            } else {
-                userPoints.remove(username);
+                participants.put(language, count + 1);
+
+            } else if (tokens.length == 2) {
+                contest.remove(nameStudent);
             }
 
             input = scanner.nextLine();
         }
 
         System.out.println("Results:");
-        userPoints.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()
-                        .thenComparing(Map.Entry.comparingByKey()))
-                .forEach(e -> System.out.println(e.getKey() + " | " + e.getValue()));
-
+        contest.entrySet()
+                .stream()
+                .forEach(user -> System.out.printf("%s | %d%n", user.getKey(), user.getValue()));
         System.out.println("Submissions:");
-        languageCount.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()
-                        .thenComparing(Map.Entry.comparingByKey()))
-                .forEach(e -> System.out.println(e.getKey() + " - " + e.getValue()));
+        participants.entrySet().stream()
+                .forEach(language -> System.out.printf("%s - %d%n", language.getKey(), language.getValue()));
     }
 }
