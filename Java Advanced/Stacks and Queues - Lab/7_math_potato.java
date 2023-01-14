@@ -1,5 +1,5 @@
-import java.util.ArrayDeque;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class MathPotato {
@@ -9,9 +9,7 @@ public class MathPotato {
         int n = Integer.valueOf(scan.nextLine());
         int round = 1;
 
-        ArrayDeque<String> childrens = new ArrayDeque<>();
-
-        Collections.addAll(childrens, children);
+        PriorityQueue<String> childrens = new PriorityQueue<>(Arrays.asList(children));
 
         while (childrens.size() > 1) {
             for (int i = 0; i < n - 1; i++) {
@@ -26,7 +24,6 @@ public class MathPotato {
                 System.out.println("Removed " + child);
             }
             round++;
-
         }
         System.out.println("Last is " + childrens.poll());
     }
