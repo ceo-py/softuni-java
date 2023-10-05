@@ -10,11 +10,10 @@ public class The_Lift_02 {
         int[] lift = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
 
         for (int i = 0; i < lift.length; i++) {
-            if ((lift[i] < 4)) {
-                int maxPeople = Math.min(4 - lift[i], people);
-                lift[i] += maxPeople;
-                people -= maxPeople;
-            }
+            int maxPeople = Math.min(4 - lift[i], people);
+            lift[i] += maxPeople;
+            people -= maxPeople;
+
         }
 
         boolean full = IntStream.range(0, lift.length).noneMatch(i -> lift[i] != 4);
@@ -28,7 +27,6 @@ public class The_Lift_02 {
         System.out.print(Arrays.toString(lift).replaceAll("[\\[\\]]", "").replaceAll(", ", " "));
     }
 }
-
 
 
 
