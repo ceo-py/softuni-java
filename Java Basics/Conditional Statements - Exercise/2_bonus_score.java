@@ -47,3 +47,42 @@ public class Main {
     }
   }
 }
+
+
+
+// import java.util.Scanner;
+//
+// public class _02_BonusScore {
+//
+//     public static void main(String[] args) {
+//
+//         Scanner scanner = new Scanner(System.in);
+//
+//         int number = Integer.parseInt(scanner.nextLine());
+//         double points = 0.00;
+//
+//         // числата по-малки или равни на 100 - 5т.
+//         // числата по-малки или равни на 1000 - 20% от числото
+//         // във всеки останал случай - 10% от числото
+//         if (number <= 100) {
+//             points = 5;
+//         } else if (number <= 1000) {
+//             points = number * 0.20;
+//         } else {
+//             points = number * 0.10;
+//         }
+//
+//         // Проверка дали числото е четно
+//         if (number % 2 == 0) {
+//             points = points + 1;
+//         }
+//
+//         // Проверка дали числото завършва на 5
+//         if (number % 10 == 5) {
+//             points = points + 2;
+//         }
+//
+//         System.out.println(points);
+//         System.out.println(number + points);
+//     }
+// }
