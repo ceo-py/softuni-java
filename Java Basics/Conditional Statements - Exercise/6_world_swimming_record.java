@@ -24,3 +24,34 @@ public class Main {
     }
   }
 }
+
+
+//
+// import java.util.Scanner;
+//
+// public class _06_WorldSwimmingRecord {
+//
+//     public static void main(String[] args) {
+//
+//         Scanner scanner = new Scanner(System.in);
+//
+//         double worldRecordInSeconds = Double.parseDouble(scanner.nextLine());
+//         double distanceInMeters = Double.parseDouble(scanner.nextLine());
+//         double timeInSecondsPerMeter = Double.parseDouble(scanner.nextLine());
+//
+//         // Изчисляваме за колко време ще преплува целия басейн
+//         double swimmingTimeInSeconds = distanceInMeters * timeInSecondsPerMeter;
+//
+//         // ВАЖНО: на всеки 15 метра той се забавя с 12.5 секунди
+//         // ВАЖНО: когато изчисляваме колко пъти се е забавил, трябва да закръглим до най-близкото цяло число надолу
+//
+//         double delayedTimes = Math.floor(distanceInMeters / 15);
+//         swimmingTimeInSeconds = swimmingTimeInSeconds + (delayedTimes * 12.5);
+//
+//         if (swimmingTimeInSeconds < worldRecordInSeconds) {
+//             System.out.printf("Yes, he succeeded! The new world record is %.2f seconds.", swimmingTimeInSeconds);
+//         } else {
+//             System.out.printf("No, he failed! He was %.2f seconds slower.", swimmingTimeInSeconds - worldRecordInSeconds);
+//         }
+//     }
+// }
